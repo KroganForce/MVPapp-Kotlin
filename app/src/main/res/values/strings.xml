@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Test App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit_text_hint">Вводите текст заметки здесь </string>
+    <string name="description">Кнопка удаления заметки</string>
+    <string name="fragment_description">Домашний экран</string>
+    <string name="detail_description">Экран ввода текста заметок</string>
+</resources>
