@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import com.exampleapp.mvpapp_kotlin.utils.Const.NOTE_ID
 import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.contract.DetailContract
 import com.exampleapp.mvpapp_kotlin.presenter.DetailPresenter
+import com.exampleapp.mvpapp_kotlin.utils.Const.NOTE_ID
 import com.exampleapp.mvpapp_kotlin.utils.toEditable
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
@@ -45,9 +45,8 @@ class DetailFragment : BaseFragment(), DetailContract {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Bundle().apply {
-            noteId = this.getInt(NOTE_ID.name)
-        }
+        noteId = arguments?.getInt(NOTE_ID.name)
+            ?: throw NullPointerException(R.string.attention.toString())
     }
 
     override fun onCreateView(
@@ -55,6 +54,7 @@ class DetailFragment : BaseFragment(), DetailContract {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
+        detailPresenter.attachView(this)
 
         val floatingActionButton: FloatingActionButton = view.findViewById(R.id.float_add_button)
         floatingActionButton.setOnClickListener {
@@ -65,7 +65,6 @@ class DetailFragment : BaseFragment(), DetailContract {
 
             listener.buttonClick()
         }
-        detailPresenter.attachView(this)
         editText = view.findViewById(R.id.edit_text_view)
         editText.text = detailPresenter.getNoteData().toEditable()
         return view

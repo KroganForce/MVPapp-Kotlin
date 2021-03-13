@@ -8,7 +8,7 @@ import com.exampleapp.mvpapp_kotlin.utils.returningDataExecutor
 import com.exampleapp.mvpapp_kotlin.utils.runExecutor
 import javax.inject.Inject
 
-class NoteRepository @Inject constructor(val dao: NotesDao) {
+class NoteRepository @Inject constructor(private val dao: NotesDao) {
 
     fun getAllData(): LiveData<List<Note>> = dao.getData()
 
@@ -28,6 +28,6 @@ class NoteRepository @Inject constructor(val dao: NotesDao) {
     }
 
     fun getDataById(id: Int): String {
-        return dao.returningDataExecutor(id) ?: EMPTY_STRING.name
+        return dao.returningDataExecutor(id) ?: EMPTY_STRING.value
     }
 }

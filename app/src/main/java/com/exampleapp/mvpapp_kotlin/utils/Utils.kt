@@ -1,9 +1,9 @@
 package com.exampleapp.mvpapp_kotlin.utils
 
 import android.text.Editable
-import com.exampleapp.mvpapp_kotlin.utils.Const.*
 import com.exampleapp.mvpapp_kotlin.db.NotesDao
 import com.exampleapp.mvpapp_kotlin.entity.Note
+import com.exampleapp.mvpapp_kotlin.utils.Const.*
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit

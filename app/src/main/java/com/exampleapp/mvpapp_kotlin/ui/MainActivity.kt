@@ -2,8 +2,8 @@ package com.exampleapp.mvpapp_kotlin.ui
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
-import com.exampleapp.mvpapp_kotlin.utils.Const
 import com.exampleapp.mvpapp_kotlin.R
+import com.exampleapp.mvpapp_kotlin.utils.Const
 
 class MainActivity : BaseActivity(), DetailFragment.FloatingButtonClickListener,
     HomeFragment.InitFragment {
@@ -33,14 +33,12 @@ class MainActivity : BaseActivity(), DetailFragment.FloatingButtonClickListener,
     }
 
     override fun showDetailFragment(id: Int) {
-        var fragment = fragmentManager.findFragmentById(R.id.fragment_container)
-        if (fragment == null) {
-            fragment = DetailFragment().newInstance(id)
-            fragmentManager.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(Const.DETAIL_FRAGMENT.name)
-                .commit()
+        val detailFragment = DetailFragment().newInstance(id)
+        fragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, detailFragment)
+            addToBackStack(Const.DETAIL_FRAGMENT.name)
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            commit()
         }
     }
 }

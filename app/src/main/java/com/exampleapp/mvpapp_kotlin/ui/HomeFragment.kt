@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.adapter.NoteAdapter
 import com.exampleapp.mvpapp_kotlin.contract.HomeContract
-import com.exampleapp.mvpapp_kotlin.presenter.HomePresenter
 import com.exampleapp.mvpapp_kotlin.entity.Note
+import com.exampleapp.mvpapp_kotlin.presenter.HomePresenter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
 
@@ -20,13 +20,13 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
     @Inject
     lateinit var homePresenter: HomePresenter
     private lateinit var initFragmentListener: InitFragment
-    private lateinit var adapter: NoteAdapter
+    private lateinit var notesAdapter: NoteAdapter
 
     interface InitFragment {
         fun showDetailFragment(id: Int)
     }
 
-    fun newInstance(): HomeFragment = HomeFragment()
+    fun newInstance() = HomeFragment()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,25 +40,35 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
         val floatingActionButton: FloatingActionButton = view.findViewById(R.id.float_action_button)
         floatingActionButton.setOnClickListener { floatButtonPush() }
-
-        initRecyclerView(view)
         initPresenter()
 
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecyclerView(view)
+
     }
 
     private fun initRecyclerView(view: View) {
-        val linearLayoutManager = LinearLayoutManager(context)
-        linearLayoutManager.orientation = RecyclerView.VERTICAL
+        val linearLayoutManager = LinearLayoutManager(this.context).apply {
+            orientation = RecyclerView.VERTICAL
+        }
+
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = linearLayoutManager
-        adapter = NoteAdapter(listener = this)
+        recyclerView.apply {
+            layoutManager = linearLayoutManager
+        }
+        notesAdapter = NoteAdapter(listener = this)
+        recyclerView.adapter = notesAdapter
     }
 
     override fun setData(list: List<Note>) {
-        adapter.updateList(list)
+        notesAdapter.updateList(list)
     }
 
     private fun initPresenter() {
