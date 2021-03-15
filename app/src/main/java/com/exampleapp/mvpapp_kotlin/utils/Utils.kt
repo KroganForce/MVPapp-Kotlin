@@ -1,6 +1,10 @@
 package com.exampleapp.mvpapp_kotlin.utils
 
 import android.text.Editable
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.db.NotesDao
 import com.exampleapp.mvpapp_kotlin.entity.Note
 import com.exampleapp.mvpapp_kotlin.utils.Const.*
@@ -48,3 +52,8 @@ fun NotesDao.returningDataExecutor(id: Int): String? {
 }
 
 fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
+
+fun initNavController(manager: FragmentManager): NavController {
+    val navHostFragment = manager.findFragmentById(R.id.nav_host) as NavHostFragment
+    return navHostFragment.navController
+}

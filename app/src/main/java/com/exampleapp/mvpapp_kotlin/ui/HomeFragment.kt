@@ -26,8 +26,6 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
         fun showDetailFragment(id: Int)
     }
 
-    fun newInstance() = HomeFragment()
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is InitFragment)

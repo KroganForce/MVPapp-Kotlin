@@ -26,13 +26,10 @@ class DetailFragment : BaseFragment(), DetailContract {
         fun buttonClick()
     }
 
-    fun newInstance(id: Int): DetailFragment {
-        val detailFragment = DetailFragment()
-        Bundle().apply {
+    fun newInstance(id: Int): Bundle {
+        return Bundle().apply {
             putInt(NOTE_ID.name, id)
-            detailFragment.arguments = this
         }
-        return detailFragment
     }
 
     override fun onAttach(context: Context) {
@@ -58,7 +55,7 @@ class DetailFragment : BaseFragment(), DetailContract {
 
         val floatingActionButton: FloatingActionButton = view.findViewById(R.id.float_add_button)
         floatingActionButton.setOnClickListener {
-            if (noteId == -1)
+            if (noteId == 0)
                 detailPresenter.add()
             else
                 detailPresenter.update(noteId)
