@@ -8,26 +8,20 @@ import com.exampleapp.mvpapp_kotlin.utils.initNavController
 class MainActivity : BaseActivity(), DetailFragment.FloatingButtonClickListener,
     HomeFragment.InitFragment {
 
-    private val fragmentManager = supportFragmentManager
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        navController = initNavController(fragmentManager)
+        navController = initNavController(supportFragmentManager)
 
-        showHomeFragment()
-    }
-
-    private fun showHomeFragment() {
-        navController.navigate(R.id.homeFragment2)
     }
 
     override fun buttonClick() {
-        fragmentManager.popBackStack()
+        navController.navigate(DetailFragmentDirections.actionDetailFragmentToHomeFragment())
     }
 
     override fun showDetailFragment(id: Int) {
-        navController.navigate(R.id.detailFragment2, DetailFragment().newInstance(id))
+        navController.navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
     }
 }
