@@ -12,6 +12,7 @@ import com.exampleapp.mvpapp_kotlin.adapter.NoteAdapter
 import com.exampleapp.mvpapp_kotlin.contract.HomeContract
 import com.exampleapp.mvpapp_kotlin.entity.Note
 import com.exampleapp.mvpapp_kotlin.presenter.HomePresenter
+import com.exampleapp.mvpapp_kotlin.utils.Const
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
 
@@ -75,7 +76,7 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
     }
 
     private fun floatButtonPush() {
-        initFragmentListener.showDetailFragment(-1)
+        initFragmentListener.showDetailFragment(Const.EMPTY_NOTE.value.toInt())
     }
 
     override fun clickOnNote(id: Int) {

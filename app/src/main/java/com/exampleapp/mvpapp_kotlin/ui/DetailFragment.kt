@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.contract.DetailContract
 import com.exampleapp.mvpapp_kotlin.presenter.DetailPresenter
+import com.exampleapp.mvpapp_kotlin.utils.Const
 import com.exampleapp.mvpapp_kotlin.utils.toEditable
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
@@ -49,7 +50,7 @@ class DetailFragment : BaseFragment(), DetailContract {
 
         val floatingActionButton: FloatingActionButton = view.findViewById(R.id.float_add_button)
         floatingActionButton.setOnClickListener {
-            if (noteId == -1)
+            if (noteId == Const.EMPTY_NOTE.value.toInt())
                 detailPresenter.add()
             else
                 detailPresenter.update(noteId)
