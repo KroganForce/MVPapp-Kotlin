@@ -12,4 +12,3 @@ data class Note(
     @ColumnInfo(name = "note")
     var text: String = "Note"
 )
-
