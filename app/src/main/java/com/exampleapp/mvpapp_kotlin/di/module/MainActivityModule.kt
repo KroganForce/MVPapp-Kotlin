@@ -15,5 +15,4 @@ interface MainActivityModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [RepositoryModule::class, FragmentModule::class])
     fun injectDetailFragment(): DetailFragment
-
 }

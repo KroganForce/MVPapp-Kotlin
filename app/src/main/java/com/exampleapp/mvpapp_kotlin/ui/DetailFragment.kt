@@ -9,10 +9,10 @@ import android.widget.EditText
 import androidx.navigation.fragment.navArgs
 import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.contract.DetailContract
+import com.exampleapp.mvpapp_kotlin.databinding.FragmentDetailBinding
 import com.exampleapp.mvpapp_kotlin.presenter.DetailPresenter
-import com.exampleapp.mvpapp_kotlin.utils.Const
+import com.exampleapp.mvpapp_kotlin.utils.Const.EMPTY_NOTE
 import com.exampleapp.mvpapp_kotlin.utils.toEditable
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
 
 class DetailFragment : BaseFragment(), DetailContract {
@@ -22,6 +22,7 @@ class DetailFragment : BaseFragment(), DetailContract {
     private var noteId: Int = 0
     private lateinit var listener: FloatingButtonClickListener
     private lateinit var editText: EditText
+    private var binding: FragmentDetailBinding? = null
 
     interface FloatingButtonClickListener {
         fun buttonClick()
@@ -46,28 +47,35 @@ class DetailFragment : BaseFragment(), DetailContract {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
+        binding = FragmentDetailBinding.bind(view)
         detailPresenter.attachView(this)
 
-        val floatingActionButton: FloatingActionButton = view.findViewById(R.id.float_add_button)
-        floatingActionButton.setOnClickListener {
-            if (noteId == Const.EMPTY_NOTE.value.toInt())
-                detailPresenter.add()
-            else
-                detailPresenter.update(noteId)
+        binding?.let {
+            it.floatAddButton.setOnClickListener {
+                if (noteId == EMPTY_NOTE.value.toInt())
+                    detailPresenter.add()
+                else
+                    detailPresenter.update(noteId)
 
-            listener.buttonClick()
+                listener.buttonClick()
+            }
         }
-        editText = view.findViewById(R.id.edit_text_view)
-        editText.text = detailPresenter.getNoteData().toEditable()
-        return view
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        detailPresenter.detachView()
+        binding?.let {
+            editText = it.editTextView
+            editText.text = detailPresenter.getNoteData().toEditable()
+        }
+
+        return view
     }
 
     override fun getNoteData() = editText.text.toString()
 
     override fun getNoteId() = noteId
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+        detailPresenter.detachView()
+    }
 }

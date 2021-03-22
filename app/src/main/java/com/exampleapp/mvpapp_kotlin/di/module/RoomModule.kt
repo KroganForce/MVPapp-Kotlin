@@ -23,7 +23,6 @@ class RoomModule {
                 }
             }).build()
 
-
     @Singleton
     @Provides
     fun providesDao(db: NotesDatabase) = db.dao()

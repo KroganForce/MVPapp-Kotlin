@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.adapter.NoteAdapter
 import com.exampleapp.mvpapp_kotlin.contract.HomeContract
+import com.exampleapp.mvpapp_kotlin.databinding.FragmentHomeBinding
 import com.exampleapp.mvpapp_kotlin.entity.Note
 import com.exampleapp.mvpapp_kotlin.presenter.HomePresenter
 import com.exampleapp.mvpapp_kotlin.utils.Const
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
 
 class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract {
@@ -22,6 +22,7 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
     lateinit var homePresenter: HomePresenter
     private lateinit var initFragmentListener: InitFragment
     private lateinit var notesAdapter: NoteAdapter
+    private var binding: FragmentHomeBinding? = null
 
     interface InitFragment {
         fun showDetailFragment(id: Int)
@@ -39,9 +40,9 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.bind(view)
+        binding?.let { it.floatActionButton.setOnClickListener { floatButtonPush() } }
 
-        val floatingActionButton: FloatingActionButton = view.findViewById(R.id.float_action_button)
-        floatingActionButton.setOnClickListener { floatButtonPush() }
         initPresenter()
 
         return view
@@ -49,21 +50,20 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecyclerView(view)
+        initRecyclerView()
 
     }
 
-    private fun initRecyclerView(view: View) {
+    private fun initRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(this.context).apply {
             orientation = RecyclerView.VERTICAL
         }
-
-        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
-        recyclerView.apply {
+        val recyclerView = binding?.recyclerView
+        recyclerView?.apply {
             layoutManager = linearLayoutManager
         }
         notesAdapter = NoteAdapter(listener = this)
-        recyclerView.adapter = notesAdapter
+        recyclerView?.adapter = notesAdapter
     }
 
     override fun setData(list: List<Note>) {
@@ -89,6 +89,7 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
 
     override fun onDestroy() {
         super.onDestroy()
+        binding = null
         homePresenter.detachView()
     }
 }
