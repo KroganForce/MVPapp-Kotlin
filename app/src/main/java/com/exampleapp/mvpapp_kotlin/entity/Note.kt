@@ -9,6 +9,7 @@ data class Note(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Int = 0,
+
     @ColumnInfo(name = "note")
     var text: String = "Note"
 )
