@@ -12,7 +12,6 @@ import com.exampleapp.mvpapp_kotlin.contract.DetailContract
 import com.exampleapp.mvpapp_kotlin.databinding.FragmentDetailBinding
 import com.exampleapp.mvpapp_kotlin.presenter.DetailPresenter
 import com.exampleapp.mvpapp_kotlin.utils.Const.EMPTY_NOTE
-import com.exampleapp.mvpapp_kotlin.utils.toEditable
 import javax.inject.Inject
 
 class DetailFragment : BaseFragment(), DetailContract {
@@ -49,6 +48,7 @@ class DetailFragment : BaseFragment(), DetailContract {
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
         binding = FragmentDetailBinding.bind(view)
         detailPresenter.attachView(this)
+        editText = binding?.editTextView!!
 
         binding?.let {
             it.floatAddButton.setOnClickListener {
@@ -60,10 +60,9 @@ class DetailFragment : BaseFragment(), DetailContract {
                 listener.buttonClick()
             }
         }
-
-        binding?.let {
-            editText = it.editTextView
-            editText.text = detailPresenter.getNoteData().toEditable()
+        detailPresenter.getNoteData()
+        detailPresenter.liveData.observe(viewLifecycleOwner) { noteText ->
+            editText.setText(noteText)
         }
 
         return view

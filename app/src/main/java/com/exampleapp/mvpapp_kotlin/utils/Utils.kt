@@ -12,6 +12,7 @@ import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
+/*
 fun NotesDao.runExecutor(const: Enum<Const>, note: Note) {
     val executor = Executors.newSingleThreadExecutor()
     when (const) {
@@ -35,8 +36,9 @@ fun NotesDao.runExecutor(const: Enum<Const>, note: Note) {
         e.printStackTrace()
     }
 }
+*/
 
-fun NotesDao.returningDataExecutor(id: Int): String? {
+/*fun NotesDao.returningDataExecutor(id: Int): String? {
     val executor = Executors.newSingleThreadExecutor()
     val future = executor.submit(Callable { this.getDataById(id) })
     executor.shutdown()
@@ -49,7 +51,7 @@ fun NotesDao.returningDataExecutor(id: Int): String? {
         e.printStackTrace()
         null
     }
-}
+}*/
 
 fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 

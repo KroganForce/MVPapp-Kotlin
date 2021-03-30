@@ -72,7 +72,11 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
 
     private fun initPresenter() {
         homePresenter.attachView(view = this)
-        homePresenter.viewIsReady(owner = this)
+        homePresenter.viewIsReady()
+        homePresenter.liveData.observe(viewLifecycleOwner) { list ->
+            setData(list)
+            TODO( "Add Flow observer")
+        }
     }
 
     private fun floatButtonPush() {

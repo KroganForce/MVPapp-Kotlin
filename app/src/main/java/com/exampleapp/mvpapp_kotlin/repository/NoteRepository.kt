@@ -1,33 +1,28 @@
 package com.exampleapp.mvpapp_kotlin.repository
 
-import androidx.lifecycle.LiveData
-import com.exampleapp.mvpapp_kotlin.utils.Const.*
 import com.exampleapp.mvpapp_kotlin.db.NotesDao
 import com.exampleapp.mvpapp_kotlin.entity.Note
-import com.exampleapp.mvpapp_kotlin.utils.returningDataExecutor
-import com.exampleapp.mvpapp_kotlin.utils.runExecutor
 import javax.inject.Inject
 
 class NoteRepository @Inject constructor(private val dao: NotesDao) {
 
-    fun getAllData(): LiveData<List<Note>> = dao.getData()
+    fun getAllData(): List<Note> = dao.getData()
 
-    fun addNote(text: String) {
+    suspend fun addNote(text: String) {
         val note = Note(text = text)
-        dao.runExecutor(INSERT, note)
+        dao.insert(note)
     }
 
-    fun updateNote(id: Int, text: String) {
+    suspend fun updateNote(id: Int, text: String) {
         val note = Note(id, text)
-        dao.runExecutor(UPDATE, note)
+        dao.update(note)
     }
 
-    fun deleteNote(id: Int) {
-        val note = Note(id)
-        dao.runExecutor(DELETE, note)
+    suspend fun deleteNote(id: Int) {
+        dao.deleteNote(id)
     }
 
-    fun getDataById(id: Int): String {
-        return dao.returningDataExecutor(id) ?: EMPTY_STRING.value
+    suspend fun getDataById(id: Int): String {
+        return dao.getDataById(id)
     }
 }

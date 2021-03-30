@@ -1,31 +1,35 @@
 package com.exampleapp.mvpapp_kotlin.presenter
 
+import androidx.lifecycle.MutableLiveData
 import com.exampleapp.mvpapp_kotlin.contract.DetailContract
 import com.exampleapp.mvpapp_kotlin.repository.NoteRepository
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DetailPresenter @Inject constructor(private val repository: NoteRepository) :
-    BasePresenter<DetailContract> {
+    BasePresenter<DetailContract>() {
 
-    @set:Inject
-    var detailView: DetailContract? = null
-
-    override fun attachView(view: DetailContract) {
-        detailView = view
-    }
+    val liveData = MutableLiveData<String>()
 
     fun add() {
-        detailView?.getNoteData()?.let { repository.addNote(it) }
+        scope.launch {
+            view?.getNoteData()?.let {
+                repository.addNote(it)
+            }
+        }
     }
 
     fun update(id: Int) {
-        detailView?.getNoteData()?.let { repository.updateNote(id, it) }
+        scope.launch {
+            view?.getNoteData()?.let {
+                repository.updateNote(id, it)
+            }
+        }
     }
 
-    fun getNoteData(): String = repository.getDataById(id = detailView?.getNoteId() ?: -1)
-
-
-    override fun detachView() {
-        detailView = null
+    fun getNoteData() {
+        scope.launch {
+            liveData.postValue(repository.getDataById(view?.getNoteId() ?: -1))
+        }
     }
 }
