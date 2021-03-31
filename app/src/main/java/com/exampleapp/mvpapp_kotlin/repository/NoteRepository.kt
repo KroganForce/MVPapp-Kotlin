@@ -1,12 +1,13 @@
 package com.exampleapp.mvpapp_kotlin.repository
 
+import androidx.lifecycle.LiveData
 import com.exampleapp.mvpapp_kotlin.db.NotesDao
 import com.exampleapp.mvpapp_kotlin.entity.Note
 import javax.inject.Inject
 
 class NoteRepository @Inject constructor(private val dao: NotesDao) {
 
-    fun getAllData(): List<Note> = dao.getData()
+    fun getAllData(): LiveData<List<Note>> = dao.getData()
 
     suspend fun addNote(text: String) {
         val note = Note(text = text)

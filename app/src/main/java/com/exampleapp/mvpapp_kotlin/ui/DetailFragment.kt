@@ -60,10 +60,10 @@ class DetailFragment : BaseFragment(), DetailContract {
                 listener.buttonClick()
             }
         }
-        detailPresenter.getNoteData()
-        detailPresenter.liveData.observe(viewLifecycleOwner) { noteText ->
-            editText.setText(noteText)
-        }
+        /* detailPresenter.getNoteData()
+         detailPresenter.liveData.observe(viewLifecycleOwner) { noteText ->
+             editText.setText(noteText)
+         }*/
 
         return view
     }
@@ -71,6 +71,10 @@ class DetailFragment : BaseFragment(), DetailContract {
     override fun getNoteData() = editText.text.toString()
 
     override fun getNoteId() = noteId
+
+    override fun setNoteText(text: String) {
+        editText.setText(text)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

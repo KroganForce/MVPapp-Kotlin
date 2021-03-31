@@ -11,7 +11,6 @@ import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.adapter.NoteAdapter
 import com.exampleapp.mvpapp_kotlin.contract.HomeContract
 import com.exampleapp.mvpapp_kotlin.databinding.FragmentHomeBinding
-import com.exampleapp.mvpapp_kotlin.entity.Note
 import com.exampleapp.mvpapp_kotlin.presenter.HomePresenter
 import com.exampleapp.mvpapp_kotlin.utils.Const
 import javax.inject.Inject
@@ -22,7 +21,7 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
     lateinit var homePresenter: HomePresenter
     private lateinit var initFragmentListener: InitFragment
     private lateinit var notesAdapter: NoteAdapter
-    private var binding: FragmentHomeBinding? = null
+    private lateinit var binding: FragmentHomeBinding
 
     interface InitFragment {
         fun showDetailFragment(id: Int)
@@ -41,7 +40,7 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.bind(view)
-        binding?.let { it.floatActionButton.setOnClickListener { floatButtonPush() } }
+        binding.floatActionButton.setOnClickListener { floatButtonPush() }
 
         initPresenter()
 
@@ -51,31 +50,28 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-
     }
 
     private fun initRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(this.context).apply {
             orientation = RecyclerView.VERTICAL
         }
-        val recyclerView = binding?.recyclerView
-        recyclerView?.apply {
+        val recyclerView = binding.recyclerView.apply {
             layoutManager = linearLayoutManager
         }
-        notesAdapter = NoteAdapter(listener = this)
-        recyclerView?.adapter = notesAdapter
-    }
 
-    override fun setData(list: List<Note>) {
-        notesAdapter.updateList(list)
+        notesAdapter = NoteAdapter(listener = this)
+        recyclerView.adapter = notesAdapter
     }
 
     private fun initPresenter() {
         homePresenter.attachView(view = this)
         homePresenter.viewIsReady()
-        homePresenter.liveData.observe(viewLifecycleOwner) { list ->
-            setData(list)
-            TODO( "Add Flow observer")
+    }
+
+    override fun setData() {
+        homePresenter.allNotes.observe(viewLifecycleOwner) { list ->
+            notesAdapter.updateList(list)
         }
     }
 
@@ -93,7 +89,6 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
 
     override fun onDestroy() {
         super.onDestroy()
-        binding = null
         homePresenter.detachView()
     }
 }
