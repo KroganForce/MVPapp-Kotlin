@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.utils.initNavController
+import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity : BaseActivity(), DetailFragment.FloatingButtonClickListener,
+class MainActivity : DaggerAppCompatActivity(), DetailFragment.FloatingButtonClickListener,
     HomeFragment.InitFragment {
 
     private lateinit var navController: NavController

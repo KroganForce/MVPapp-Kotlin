@@ -1,24 +1,21 @@
 package com.exampleapp.mvpapp_kotlin.presenter
 
 import androidx.lifecycle.LiveData
-import com.exampleapp.mvpapp_kotlin.contract.HomeContract
+import androidx.lifecycle.asLiveData
 import com.exampleapp.mvpapp_kotlin.entity.Note
 import com.exampleapp.mvpapp_kotlin.repository.NoteRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class HomePresenter @Inject constructor(private val repository: NoteRepository) :
-    BasePresenter<HomeContract>() {
+class HomePresenter @Inject constructor(
+    private val noteRepository: NoteRepository
+) : BasePresenter() {
 
-    val allNotes: LiveData<List<Note>> = repository.getAllData()
-
-    fun viewIsReady() {
-        view?.setData()
-    }
+    val allNotes: LiveData<List<Note>> = noteRepository.getAllData().asLiveData()
 
     fun deleteNote(id: Int) {
         scope.launch {
-            repository.deleteNote(id)
+            noteRepository.deleteNote(id)
         }
     }
 }

@@ -2,26 +2,28 @@ package com.exampleapp.mvpapp_kotlin.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.navigation.fragment.navArgs
 import com.exampleapp.mvpapp_kotlin.R
-import com.exampleapp.mvpapp_kotlin.contract.DetailContract
 import com.exampleapp.mvpapp_kotlin.databinding.FragmentDetailBinding
 import com.exampleapp.mvpapp_kotlin.presenter.DetailPresenter
-import com.exampleapp.mvpapp_kotlin.utils.Const.EMPTY_NOTE
+import com.exampleapp.mvpapp_kotlin.utils.EMPTY_NOTE
+import com.google.android.material.snackbar.Snackbar
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class DetailFragment : BaseFragment(), DetailContract {
+class DetailFragment : DaggerFragment() {
 
     @Inject
     lateinit var detailPresenter: DetailPresenter
     private var noteId: Int = 0
     private lateinit var listener: FloatingButtonClickListener
     private lateinit var editText: EditText
-    private var binding: FragmentDetailBinding? = null
+    private lateinit var binding: FragmentDetailBinding
 
     interface FloatingButtonClickListener {
         fun buttonClick()
@@ -47,38 +49,34 @@ class DetailFragment : BaseFragment(), DetailContract {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
         binding = FragmentDetailBinding.bind(view)
-        detailPresenter.attachView(this)
-        editText = binding?.editTextView!!
+        editText = binding.editTextView
 
-        binding?.let {
-            it.floatAddButton.setOnClickListener {
-                if (noteId == EMPTY_NOTE.value.toInt())
-                    detailPresenter.add()
-                else
-                    detailPresenter.update(noteId)
-
-                listener.buttonClick()
-            }
+        detailPresenter.getNoteById(noteId).observe(viewLifecycleOwner) { noteText ->
+            editText.setText(noteText)
         }
-        /* detailPresenter.getNoteData()
-         detailPresenter.liveData.observe(viewLifecycleOwner) { noteText ->
-             editText.setText(noteText)
-         }*/
+
+        binding.floatAddButton.setOnClickListener {
+            if (noteId == EMPTY_NOTE)
+                detailPresenter.add(getNoteData())
+            else
+                detailPresenter.update(noteId, getNoteData())
+
+            listener.buttonClick()
+        }
 
         return view
     }
 
-    override fun getNoteData() = editText.text.toString()
+    private fun getNoteData() = editText.text.toString()
 
-    override fun getNoteId() = noteId
-
-    override fun setNoteText(text: String) {
-        editText.setText(text)
+    private fun checkEmptyNote(noteText: String): Boolean {
+        return noteText.contains(Regex("""\s""")) || editText.length() == 0 || noteText.contains(
+            Regex("""\s + \S""")
+        )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
         detailPresenter.detachView()
     }
 }

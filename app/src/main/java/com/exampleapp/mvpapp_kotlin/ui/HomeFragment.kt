@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.adapter.NoteAdapter
-import com.exampleapp.mvpapp_kotlin.contract.HomeContract
 import com.exampleapp.mvpapp_kotlin.databinding.FragmentHomeBinding
 import com.exampleapp.mvpapp_kotlin.presenter.HomePresenter
-import com.exampleapp.mvpapp_kotlin.utils.Const
+import com.exampleapp.mvpapp_kotlin.utils.EMPTY_NOTE
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract {
+class HomeFragment : DaggerFragment(), NoteAdapter.NoteClickListener {
 
     @Inject
     lateinit var homePresenter: HomePresenter
@@ -42,7 +42,7 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
         binding = FragmentHomeBinding.bind(view)
         binding.floatActionButton.setOnClickListener { floatButtonPush() }
 
-        initPresenter()
+        setData()
 
         return view
     }
@@ -64,19 +64,14 @@ class HomeFragment : BaseFragment(), NoteAdapter.NoteClickListener, HomeContract
         recyclerView.adapter = notesAdapter
     }
 
-    private fun initPresenter() {
-        homePresenter.attachView(view = this)
-        homePresenter.viewIsReady()
-    }
-
-    override fun setData() {
+    private fun setData() {
         homePresenter.allNotes.observe(viewLifecycleOwner) { list ->
             notesAdapter.updateList(list)
         }
     }
 
     private fun floatButtonPush() {
-        initFragmentListener.showDetailFragment(Const.EMPTY_NOTE.value.toInt())
+        initFragmentListener.showDetailFragment(EMPTY_NOTE)
     }
 
     override fun clickOnNote(id: Int) {

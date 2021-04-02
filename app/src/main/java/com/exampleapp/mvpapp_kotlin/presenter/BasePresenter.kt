@@ -6,19 +6,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 
-abstract class BasePresenter<T> {
-
-    val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    var view: T? = null
-
-    @CallSuper
-    fun attachView(view: T) {
-        this.view = view
-    }
+abstract class BasePresenter(
+    val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+) {
 
     @CallSuper
     fun detachView() {
-        this.view = null
         scope.cancel()
     }
 }

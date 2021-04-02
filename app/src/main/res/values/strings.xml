@@ -4,4 +4,5 @@
     <string name="description">Кнопка удаления заметки</string>
     <string name="fragment_description">Домашний экран</string>
     <string name="detail_description">Экран ввода текста заметок</string>
+    <string name="empty_note">Введите текст заметки</string>
 </resources>
