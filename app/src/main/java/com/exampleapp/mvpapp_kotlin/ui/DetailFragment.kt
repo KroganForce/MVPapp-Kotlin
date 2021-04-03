@@ -2,7 +2,6 @@ package com.exampleapp.mvpapp_kotlin.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.databinding.FragmentDetailBinding
 import com.exampleapp.mvpapp_kotlin.presenter.DetailPresenter
-import com.exampleapp.mvpapp_kotlin.utils.EMPTY_NOTE
-import com.google.android.material.snackbar.Snackbar
+import com.exampleapp.mvpapp_kotlin.utils.showSnackBar
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -56,24 +54,24 @@ class DetailFragment : DaggerFragment() {
         }
 
         binding.floatAddButton.setOnClickListener {
-            if (noteId == EMPTY_NOTE)
-                detailPresenter.add(getNoteData())
-            else
-                detailPresenter.update(noteId, getNoteData())
-
-            listener.buttonClick()
+            showSnackBarOrAddNote(getNoteData(), view)
         }
-
         return view
     }
 
-    private fun getNoteData() = editText.text.toString()
-
-    private fun checkEmptyNote(noteText: String): Boolean {
-        return noteText.contains(Regex("""\s""")) || editText.length() == 0 || noteText.contains(
-            Regex("""\s + \S""")
-        )
+    private fun showSnackBarOrAddNote(noteText: String, view: View) {
+        if (detailPresenter.checkingWhiteSpaces(noteText, editText.length()))
+            showSnackBar(view)
+        else
+            addNote(noteText)
     }
+
+    private fun addNote(noteText: String) {
+        detailPresenter.insertOrUpdate(noteId, noteText)
+        listener.buttonClick()
+    }
+
+    private fun getNoteData() = editText.text.toString()
 
     override fun onDestroyView() {
         super.onDestroyView()

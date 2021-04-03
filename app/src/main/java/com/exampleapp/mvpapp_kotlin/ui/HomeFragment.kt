@@ -11,7 +11,7 @@ import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.adapter.NoteAdapter
 import com.exampleapp.mvpapp_kotlin.databinding.FragmentHomeBinding
 import com.exampleapp.mvpapp_kotlin.presenter.HomePresenter
-import com.exampleapp.mvpapp_kotlin.utils.EMPTY_NOTE
+import com.exampleapp.mvpapp_kotlin.utils.EMPTY_ID
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -71,7 +71,7 @@ class HomeFragment : DaggerFragment(), NoteAdapter.NoteClickListener {
     }
 
     private fun floatButtonPush() {
-        initFragmentListener.showDetailFragment(EMPTY_NOTE)
+        initFragmentListener.showDetailFragment(EMPTY_ID)
     }
 
     override fun clickOnNote(id: Int) {
