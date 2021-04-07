@@ -5,7 +5,9 @@ import com.exampleapp.mvpapp_kotlin.entity.Note
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class NoteRepository @Inject constructor(private val dao: NotesDao) {
+class NoteRepository @Inject constructor(
+    private val dao: NotesDao
+) {
 
     fun getAllData() = dao.getData()
 

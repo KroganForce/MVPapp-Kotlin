@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.exampleapp.mvpapp_kotlin.R
+import com.exampleapp.mvpapp_kotlin.databinding.FragmentDetailBinding
+import com.exampleapp.mvpapp_kotlin.databinding.RecyclerViewBinding
 import com.exampleapp.mvpapp_kotlin.entity.Note
 import com.exampleapp.mvpapp_kotlin.utils.DiffUtility
 
@@ -18,9 +20,9 @@ class NoteAdapter(private val listener: NoteClickListener) : RecyclerView.Adapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.recycler_view, parent, false)
-        return NoteHolder(view)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.recycler_view, parent, false)
+        return NoteHolder(RecyclerViewBinding.bind(view))
     }
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
