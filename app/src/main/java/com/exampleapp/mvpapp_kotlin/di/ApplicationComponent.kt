@@ -2,7 +2,6 @@ package com.exampleapp.mvpapp_kotlin.di
 
 import android.content.Context
 import com.exampleapp.mvpapp_kotlin.di.module.AppModule
-import com.exampleapp.mvpapp_kotlin.di.module.MainActivityModule
 import com.exampleapp.mvpapp_kotlin.di.module.RoomModule
 import com.exampleapp.mvpapp_kotlin.utils.AppInit
 import dagger.BindsInstance
@@ -16,7 +15,8 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         AppModule::class,
-        RoomModule::class]
+        RoomModule::class
+    ]
 )
 interface ApplicationComponent : AndroidInjector<AppInit> {
 

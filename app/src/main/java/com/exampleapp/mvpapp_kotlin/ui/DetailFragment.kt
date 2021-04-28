@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.navigation.fragment.navArgs
-import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.databinding.FragmentDetailBinding
 import com.exampleapp.mvpapp_kotlin.presenter.DetailPresenter
+import com.exampleapp.mvpapp_kotlin.ui.listener.FloatingButtonClickListener
 import com.exampleapp.mvpapp_kotlin.utils.showSnackBar
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -20,12 +19,7 @@ class DetailFragment : DaggerFragment() {
     lateinit var detailPresenter: DetailPresenter
     private var noteId: Int = 0
     private lateinit var listener: FloatingButtonClickListener
-    private lateinit var editText: EditText
     private lateinit var binding: FragmentDetailBinding
-
-    interface FloatingButtonClickListener {
-        fun buttonClick()
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,23 +38,26 @@ class DetailFragment : DaggerFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_detail, container, false)
-        binding = FragmentDetailBinding.bind(view)
-        editText = binding.editTextView
+    ): View {
+        return FragmentDetailBinding.inflate(inflater, container, false).also {
+            binding = it
+        }.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         detailPresenter.getNoteById(noteId).observe(viewLifecycleOwner) { noteText ->
-            editText.setText(noteText)
+            binding.editTextView.setText(noteText)
         }
 
         binding.floatAddButton.setOnClickListener {
-            showSnackBarOrAddNote(getNoteData(), view)
+            showSnackBarOrAddNote(getNoteData(), binding.root)
         }
-        return view
     }
 
     private fun showSnackBarOrAddNote(noteText: String, view: View) {
-        if (detailPresenter.checkingWhiteSpaces(noteText, editText.length()))
+        if (detailPresenter.checkingWhiteSpaces(binding.editTextView.length()))
             showSnackBar(view)
         else
             addNote(noteText)
@@ -68,10 +65,10 @@ class DetailFragment : DaggerFragment() {
 
     private fun addNote(noteText: String) {
         detailPresenter.insertOrUpdate(noteId, noteText)
-        listener.buttonClick()
+        listener.addNoteButton()
     }
 
-    private fun getNoteData() = editText.text.toString()
+    private fun getNoteData() = binding.editTextView.text.toString()
 
     override fun onDestroyView() {
         super.onDestroyView()
