@@ -60,7 +60,7 @@ class DetailFragment : DaggerFragment() {
     }
 
     private fun showSnackBarOrAddNote(noteText: String, view: View) {
-        if (detailPresenter.checkingWhiteSpaces(noteText, editText.length()))
+        if (detailPresenter.checkingWhiteSpaces(editText.length()))
             showSnackBar(view)
         else
             addNote(noteText)

@@ -34,9 +34,7 @@ class DetailPresenter @Inject constructor(
             update(noteId, noteText)
     }
 
-    fun checkingWhiteSpaces(noteText: String, editTextLength: Int): Boolean {
-        return noteText.contains(Regex("""\s"""))
-                || editTextLength == 0
-                || noteText.contains(Regex("""\s + \S"""))
+    fun checkingWhiteSpaces(editTextLength: Int): Boolean {
+        return editTextLength == 0
     }
 }
