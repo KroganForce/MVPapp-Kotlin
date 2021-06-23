@@ -11,10 +11,12 @@ class NoteHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(listener: NoteAdapter.NoteClickListener, item: Note) {
+        // TODO: 23.06.2021 Why is there local variable here? BINDING
         val textView: TextView = binding.noteTextView
         textView.text = item.text
         textView.setOnClickListener { listener.clickOnNote(item.id) }
 
+        // TODO: 23.06.2021 Why is there local variable here? BINDING
         val imageView: ImageView = binding.deleteButton
         imageView.setOnClickListener { listener.deleteItem(item.id) }
     }

@@ -9,6 +9,7 @@ import dagger.android.support.DaggerAppCompatActivity
 class MainActivity : DaggerAppCompatActivity(), DetailFragment.FloatingButtonClickListener,
     HomeFragment.InitFragment {
 
+    // TODO: 23.06.2021 by lazy
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,6 +19,7 @@ class MainActivity : DaggerAppCompatActivity(), DetailFragment.FloatingButtonCli
 
     }
 
+    // TODO: 23.06.2021 rename
     override fun buttonClick() {
         navController.navigate(DetailFragmentDirections.actionDetailFragmentToHomeFragment())
     }

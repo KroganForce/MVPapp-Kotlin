@@ -23,6 +23,7 @@ class HomeFragment : DaggerFragment(), NoteAdapter.NoteClickListener {
     private lateinit var notesAdapter: NoteAdapter
     private lateinit var binding: FragmentHomeBinding
 
+    // TODO: 23.06.2021 move interface into separate package (optionally)
     interface InitFragment {
         fun showDetailFragment(id: Int)
     }
@@ -38,10 +39,12 @@ class HomeFragment : DaggerFragment(), NoteAdapter.NoteClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // TODO: 23.06.2021 run ext
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        // TODO: 23.06.2021 move to onViewCreated
         binding = FragmentHomeBinding.bind(view)
         binding.floatActionButton.setOnClickListener { floatButtonPush() }
-
         setData()
 
         return view
@@ -53,13 +56,16 @@ class HomeFragment : DaggerFragment(), NoteAdapter.NoteClickListener {
     }
 
     private fun initRecyclerView() {
+        // TODO: 23.06.2021 init into recyclerView apply block
         val linearLayoutManager = LinearLayoutManager(this.context).apply {
             orientation = RecyclerView.VERTICAL
         }
+
         val recyclerView = binding.recyclerView.apply {
             layoutManager = linearLayoutManager
         }
 
+        // TODO: 23.06.2021 init into recyclerView apply block
         notesAdapter = NoteAdapter(listener = this)
         recyclerView.adapter = notesAdapter
     }

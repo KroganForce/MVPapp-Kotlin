@@ -14,12 +14,14 @@ class NoteAdapter(private val listener: NoteClickListener) : RecyclerView.Adapte
 
     private val list = arrayListOf<Note>()
 
+    // TODO: 23.06.2021 move interface into separate package (optionally)
     interface NoteClickListener {
         fun clickOnNote(id: Int)
         fun deleteItem(id: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
+        // TODO: 23.06.2021 run ext (optionally)
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.recycler_view, parent, false)
         return NoteHolder(RecyclerViewBinding.bind(view))
@@ -34,6 +36,7 @@ class NoteAdapter(private val listener: NoteClickListener) : RecyclerView.Adapte
     }
 
     fun updateList(newList: List<Note>) {
+        // TODO: 23.06.2021 apply ext for diffResult (optionally)
         val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(DiffUtility(list, newList))
         list.clear()
         list.addAll(newList)

@@ -20,6 +20,8 @@ class DetailFragment : DaggerFragment() {
     lateinit var detailPresenter: DetailPresenter
     private var noteId: Int = 0
     private lateinit var listener: FloatingButtonClickListener
+
+    // TODO: 23.06.2021 use binding
     private lateinit var editText: EditText
     private lateinit var binding: FragmentDetailBinding
 
@@ -47,6 +49,8 @@ class DetailFragment : DaggerFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
         binding = FragmentDetailBinding.bind(view)
+
+        // TODO: 23.06.2021 donkey initialization
         editText = binding.editTextView
 
         detailPresenter.getNoteById(noteId).observe(viewLifecycleOwner) { noteText ->
