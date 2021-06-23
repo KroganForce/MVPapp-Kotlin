@@ -12,15 +12,11 @@ class NoteRepository @Inject constructor(
     fun getAllData() = dao.getData()
 
     suspend fun addNote(text: String) {
-        // TODO: 23.06.2021 init Note immediately as an argument
-        val note = Note(text = text)
-        dao.insert(note)
+        dao.insert(Note(text = text))
     }
 
     suspend fun updateNote(id: Int, text: String) {
-        // TODO: 23.06.2021 init Note immediately as an argument
-        val note = Note(id, text)
-        dao.update(note)
+        dao.update(Note(id, text))
     }
 
     suspend fun deleteNote(id: Int) {

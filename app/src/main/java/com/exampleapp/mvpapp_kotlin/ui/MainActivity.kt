@@ -1,26 +1,25 @@
 package com.exampleapp.mvpapp_kotlin.ui
 
 import android.os.Bundle
-import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.exampleapp.mvpapp_kotlin.R
-import com.exampleapp.mvpapp_kotlin.utils.initNavController
+import com.exampleapp.mvpapp_kotlin.databinding.ActivityMainBinding
+import com.exampleapp.mvpapp_kotlin.ui.listener.FloatingButtonClickListener
+import com.exampleapp.mvpapp_kotlin.ui.listener.InitFragment
 import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity : DaggerAppCompatActivity(), DetailFragment.FloatingButtonClickListener,
-    HomeFragment.InitFragment {
+class MainActivity : DaggerAppCompatActivity(), FloatingButtonClickListener, InitFragment {
 
-    // TODO: 23.06.2021 by lazy
-    private lateinit var navController: NavController
+    private val navController by lazy {
+        findNavController(R.id.nav_host)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        navController = initNavController(supportFragmentManager)
-
+        setContentView(ActivityMainBinding.inflate(layoutInflater).root)
     }
 
-    // TODO: 23.06.2021 rename
-    override fun buttonClick() {
+    override fun addNoteButton() {
         navController.navigate(DetailFragmentDirections.actionDetailFragmentToHomeFragment())
     }
 

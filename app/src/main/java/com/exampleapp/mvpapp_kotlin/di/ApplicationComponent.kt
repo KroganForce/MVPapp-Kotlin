@@ -12,11 +12,11 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    // TODO: 23.06.2021 init Note immediately as an argument
     modules = [
         AndroidSupportInjectionModule::class,
         AppModule::class,
-        RoomModule::class]
+        RoomModule::class
+    ]
 )
 interface ApplicationComponent : AndroidInjector<AppInit> {
 
