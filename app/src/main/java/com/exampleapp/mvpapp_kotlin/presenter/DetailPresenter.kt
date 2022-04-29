@@ -15,7 +15,7 @@ class DetailPresenter @Inject constructor(
         return noteRepository.getDataById(id).asLiveData()
     }
 
-    private fun add(noteText: String) {
+    fun add(noteText: String) {
         scope.launch {
             noteRepository.addNote(noteText)
         }

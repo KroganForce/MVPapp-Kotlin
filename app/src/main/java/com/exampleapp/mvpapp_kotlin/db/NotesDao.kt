@@ -21,5 +21,4 @@ interface NotesDao {
 
     @Query("DELETE FROM NOTE WHERE id = :id")
     suspend fun deleteNote(id: Int)
-    //TODO("Add Flow in Room, remove Enum constants.")
 }
