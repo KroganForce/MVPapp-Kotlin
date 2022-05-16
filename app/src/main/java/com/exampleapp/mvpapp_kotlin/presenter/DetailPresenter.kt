@@ -21,7 +21,7 @@ class DetailPresenter @Inject constructor(
         }
     }
 
-    private fun update(id: Int, noteText: String) {
+    fun update(id: Int, noteText: String) {
         scope.launch {
             noteRepository.updateNote(id, noteText)
         }

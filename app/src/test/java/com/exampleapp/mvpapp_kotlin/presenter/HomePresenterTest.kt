@@ -3,8 +3,8 @@ package com.exampleapp.mvpapp_kotlin.presenter
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.exampleapp.mvpapp_kotlin.entity.Note
 import com.exampleapp.mvpapp_kotlin.repository.NoteRepository
-import com.exampleapp.mvpapp_kotlin.testId
-import com.exampleapp.mvpapp_kotlin.testString
+import com.exampleapp.mvpapp_kotlin.TEST_ID
+import com.exampleapp.mvpapp_kotlin.TEST_STRING
 import com.exampleapp.mvpapp_kotlin.utilities.MainCoroutineRule
 import com.exampleapp.mvpapp_kotlin.utilities.getOrAwaitValue
 import io.mockk.coEvery
@@ -33,12 +33,12 @@ class HomePresenterTest {
     @Test
     fun getAllNoteDataTest() {
         coEvery { noteRepository.getAllData() } returns flow {
-            emit(listOf(Note(testId, testString)))
+            emit(listOf(Note(TEST_ID, TEST_STRING)))
         }
         homePresenter = HomePresenter(noteRepository)
         assertNotNull(homePresenter.allNotes.getOrAwaitValue())
-        assertEquals(homePresenter.allNotes.getOrAwaitValue()[0].id, testId)
-        assertEquals(homePresenter.allNotes.getOrAwaitValue()[0].text, testString)
+        assertEquals(homePresenter.allNotes.getOrAwaitValue()[0].id, TEST_ID)
+        assertEquals(homePresenter.allNotes.getOrAwaitValue()[0].text, TEST_STRING)
     }
 
     @Test
@@ -46,14 +46,14 @@ class HomePresenterTest {
         coEvery { noteRepository.getAllData() } returns flow {
             emit(emptyList<Note>())
         }
-        coEvery { noteRepository.deleteNote(testId) } answers {}
-        val list = mutableListOf(Note(testId, testString))
+        coEvery { noteRepository.deleteNote(TEST_ID) } answers {}
+        val list = mutableListOf(Note(TEST_ID, TEST_STRING))
         homePresenter = HomePresenter(noteRepository)
         homePresenter.allNotes.value = list
-        homePresenter.deleteNote(testId)
+        homePresenter.deleteNote(TEST_ID)
         coVerify {
             noteRepository.getAllData()
-            noteRepository.deleteNote(testId)
+            noteRepository.deleteNote(TEST_ID)
         }
         assertEquals(emptyList<Note>(), homePresenter.allNotes.getOrAwaitValue())
     }
