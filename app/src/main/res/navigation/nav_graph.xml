@@ -25,7 +25,11 @@
         android:id="@+id/homeFragment2"
         android:name="com.exampleapp.mvpapp_kotlin.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment2"
