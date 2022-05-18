@@ -47,8 +47,8 @@ class DetailFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        detailPresenter.getNoteById(noteId).observe(viewLifecycleOwner) { noteText ->
-            binding.editTextView.setText(noteText)
+        detailPresenter.getNoteById(noteId).observe(viewLifecycleOwner) { note ->
+            binding.editTextView.setText(note?.text)
         }
 
         binding.floatAddButton.setOnClickListener {

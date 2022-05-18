@@ -2,6 +2,7 @@ package com.exampleapp.mvpapp_kotlin.presenter
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.exampleapp.mvpapp_kotlin.entity.Note
 import com.exampleapp.mvpapp_kotlin.repository.NoteRepository
 import com.exampleapp.mvpapp_kotlin.utils.EMPTY_ID
 import kotlinx.coroutines.launch
@@ -11,8 +12,9 @@ class DetailPresenter @Inject constructor(
     private val noteRepository: NoteRepository
 ) : BasePresenter() {
 
-    fun getNoteById(id: Int): LiveData<String?> {
+    fun getNoteById(id: Int): LiveData<Note?> {
         return noteRepository.getDataById(id).asLiveData()
+
     }
 
     fun add(noteText: String) {

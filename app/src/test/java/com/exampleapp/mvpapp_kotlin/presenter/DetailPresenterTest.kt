@@ -3,6 +3,7 @@ package com.exampleapp.mvpapp_kotlin.presenter
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.asLiveData
 import com.exampleapp.mvpapp_kotlin.*
+import com.exampleapp.mvpapp_kotlin.entity.Note
 import com.exampleapp.mvpapp_kotlin.repository.NoteRepository
 import com.exampleapp.mvpapp_kotlin.utilities.MainCoroutineRule
 import com.exampleapp.mvpapp_kotlin.utilities.getOrAwaitValue
@@ -38,24 +39,24 @@ class DetailPresenterTest {
     @Test
     fun getNoteByIdTest() {
         coEvery { noteRepository.getDataById(TEST_ID) } returns flow {
-            emit(TEST_STRING)
+            emit(Note(TEST_ID, TEST_STRING))
         }
         val result = detailPresenter.getNoteById(TEST_ID).getOrAwaitValue()
         assertNotNull(result)
-        assertEquals(TEST_STRING, result)
+        assertEquals(TEST_STRING, result?.text)
     }
 
     @Test
     fun addTest() {
         coEvery { noteRepository.getDataById(TEST_ID) } returns flow {
-            emit(TEST_STRING)
+            emit(Note(TEST_ID, TEST_STRING))
         }
         coEvery { noteRepository.addNote(TEST_STRING) } answers {}
         detailPresenter.add(TEST_STRING)
 
         assertEquals(
             TEST_STRING,
-            noteRepository.getDataById(TEST_ID).asLiveData().getOrAwaitValue()
+            noteRepository.getDataById(TEST_ID).asLiveData().getOrAwaitValue()?.text
         )
 
         coVerify {
@@ -67,14 +68,14 @@ class DetailPresenterTest {
     @Test
     fun updateTest() {
         coEvery { noteRepository.getDataById(TEST_ID) } returns flow {
-            emit(TEST_STRING)
+            emit(Note(TEST_ID, TEST_STRING))
         }
         coEvery { noteRepository.updateNote(TEST_ID, TEST_STRING) } answers {}
         detailPresenter.update(TEST_ID, TEST_STRING)
 
         assertEquals(
             TEST_STRING,
-            noteRepository.getDataById(TEST_ID).asLiveData().getOrAwaitValue()
+            noteRepository.getDataById(TEST_ID).asLiveData().getOrAwaitValue()?.text
         )
 
         coVerify {

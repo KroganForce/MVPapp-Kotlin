@@ -10,8 +10,8 @@ interface NotesDao {
     @Query("SELECT * FROM NOTE")
     fun getData(): Flow<List<Note>>
 
-    @Query("SELECT note FROM NOTE WHERE id =:id")
-    fun getDataById(id: Int): Flow<String?>
+    @Query("SELECT * FROM NOTE WHERE id =:id")
+    fun getDataById(id: Int): Flow<Note?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Note)
