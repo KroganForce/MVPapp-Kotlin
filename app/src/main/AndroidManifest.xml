@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:configChanges="orientation"
         android:theme="@style/Theme.MVPAppKotlin"
+        android:extractNativeLibs="true"
         android:fullBackupContent="true">
         <activity android:name=".ui.MainActivity"
             android:exported = "true">

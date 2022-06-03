@@ -2,7 +2,7 @@ package com.exampleapp.mvpapp_kotlin.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.exampleapp.mvpapp_kotlin.TEST_EMPTY_STRING
@@ -15,17 +15,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class DaoTest {
+internal class NoteRepositoryTest {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -36,7 +32,7 @@ class DaoTest {
     @Before
     fun initDataBase() {
         database = Room.inMemoryDatabaseBuilder(
-            getApplicationContext(),
+            ApplicationProvider.getApplicationContext(),
             NotesDatabase::class.java
         ).allowMainThreadQueries().build()
         dao = database.dao()
@@ -52,8 +48,8 @@ class DaoTest {
         val note = Note(TEST_ID, TEST_STRING)
         dao.insert(note)
         val result = dao.getData().first().toList()
-        assertEquals(note.id, result.first().id)
-        assertEquals(TEST_STRING, result.first().text)
+        Assert.assertEquals(note.id, result.first().id)
+        Assert.assertEquals(TEST_STRING, result.first().text)
     }
 
     @Test
@@ -61,7 +57,7 @@ class DaoTest {
         val note = Note(TEST_ID, TEST_STRING)
         dao.insert(note)
         val result = dao.getDataById(1).first()?.text
-        assertEquals(TEST_STRING, result)
+        Assert.assertEquals(TEST_STRING, result)
     }
 
     @Test
@@ -69,8 +65,8 @@ class DaoTest {
         val note = Note(TEST_ID, TEST_STRING)
         dao.insert(note)
         val result = dao.getData().first().toList()
-        assertEquals(note.id, result.first().id)
-        assertEquals(TEST_STRING, result.first().text)
+        Assert.assertEquals(note.id, result.first().id)
+        Assert.assertEquals(TEST_STRING, result.first().text)
     }
 
     @Test
@@ -80,8 +76,8 @@ class DaoTest {
         val secondNote = Note(TEST_ID, TEST_STRING)
         dao.update(secondNote)
         val result = dao.getData().first().toList()
-        assertEquals(secondNote.id, result.first().id)
-        assertEquals(TEST_STRING, result.first().text)
+        Assert.assertEquals(secondNote.id, result.first().id)
+        Assert.assertEquals(TEST_STRING, result.first().text)
     }
 
     @Test
@@ -90,6 +86,6 @@ class DaoTest {
         dao.insert(firstNote)
         dao.deleteNote(firstNote.id)
         val result = dao.getDataById(firstNote.id).first()
-        assertEquals(null, result)
+        Assert.assertEquals(null, result)
     }
 }
