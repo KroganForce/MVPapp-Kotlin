@@ -1,16 +1,20 @@
 package com.exampleapp.mvpapp_kotlin.presenter
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.exampleapp.mvpapp_kotlin.entity.Note
 import com.exampleapp.mvpapp_kotlin.repository.NoteRepository
 import com.exampleapp.mvpapp_kotlin.utils.EMPTY_ID
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class DetailPresenter @Inject constructor(
     private val noteRepository: NoteRepository
-) : BasePresenter() {
+) : ViewModel() {
 
     fun getNoteById(id: Int): LiveData<Note?> {
         return noteRepository.getDataById(id).asLiveData()
@@ -18,13 +22,13 @@ class DetailPresenter @Inject constructor(
     }
 
     fun add(noteText: String) {
-        scope.launch {
+        viewModelScope.launch {
             noteRepository.addNote(noteText)
         }
     }
 
     fun update(id: Int, noteText: String) {
-        scope.launch {
+        viewModelScope.launch {
             noteRepository.updateNote(id, noteText)
         }
     }

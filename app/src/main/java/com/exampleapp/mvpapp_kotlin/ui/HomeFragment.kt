@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.exampleapp.mvpapp_kotlin.adapter.NoteAdapter
 import com.exampleapp.mvpapp_kotlin.adapter.listener.NoteClickListener
@@ -12,13 +14,13 @@ import com.exampleapp.mvpapp_kotlin.databinding.FragmentHomeBinding
 import com.exampleapp.mvpapp_kotlin.presenter.HomePresenter
 import com.exampleapp.mvpapp_kotlin.ui.listener.InitFragment
 import com.exampleapp.mvpapp_kotlin.utils.EMPTY_ID
-import dagger.android.support.DaggerFragment
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-class HomeFragment : DaggerFragment(), NoteClickListener {
+@AndroidEntryPoint
+class HomeFragment : Fragment(), NoteClickListener {
 
-    @Inject
-    lateinit var homePresenter: HomePresenter
+    private val homePresenter: HomePresenter by viewModels()
     private lateinit var initFragmentListener: InitFragment
     private val notesAdapter: NoteAdapter = NoteAdapter(this)
     private lateinit var binding: FragmentHomeBinding
@@ -71,10 +73,5 @@ class HomeFragment : DaggerFragment(), NoteClickListener {
 
     override fun deleteItem(id: Int) {
         homePresenter.deleteNote(id)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        homePresenter.detachView()
     }
 }

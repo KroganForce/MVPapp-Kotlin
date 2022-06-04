@@ -5,18 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.exampleapp.mvpapp_kotlin.databinding.FragmentDetailBinding
 import com.exampleapp.mvpapp_kotlin.presenter.DetailPresenter
 import com.exampleapp.mvpapp_kotlin.ui.listener.FloatingButtonClickListener
 import com.exampleapp.mvpapp_kotlin.utils.showSnackBar
-import dagger.android.support.DaggerFragment
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-class DetailFragment : DaggerFragment() {
+@AndroidEntryPoint
+class DetailFragment : Fragment() {
 
-    @Inject
-    lateinit var detailPresenter: DetailPresenter
+    private val detailPresenter: DetailPresenter by viewModels()
     private var noteId: Int = 0
     private lateinit var listener: FloatingButtonClickListener
     private lateinit var binding: FragmentDetailBinding
@@ -70,8 +72,4 @@ class DetailFragment : DaggerFragment() {
 
     private fun getNoteData() = binding.editTextView.text.toString()
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        detailPresenter.detachView()
-    }
 }

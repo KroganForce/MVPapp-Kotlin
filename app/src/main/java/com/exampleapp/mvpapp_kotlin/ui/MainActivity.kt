@@ -1,14 +1,16 @@
 package com.exampleapp.mvpapp_kotlin.ui
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.exampleapp.mvpapp_kotlin.R
 import com.exampleapp.mvpapp_kotlin.databinding.ActivityMainBinding
 import com.exampleapp.mvpapp_kotlin.ui.listener.FloatingButtonClickListener
 import com.exampleapp.mvpapp_kotlin.ui.listener.InitFragment
-import dagger.android.support.DaggerAppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : DaggerAppCompatActivity(), FloatingButtonClickListener, InitFragment {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity(), FloatingButtonClickListener, InitFragment {
 
     private val navController by lazy {
         findNavController(R.id.nav_host)

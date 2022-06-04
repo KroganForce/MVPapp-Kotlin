@@ -8,13 +8,18 @@ import com.exampleapp.mvpapp_kotlin.db.NotesDatabase
 import com.exampleapp.mvpapp_kotlin.utils.NOTES_DATABASE
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class RoomModule {
-    @Singleton
+
     @Provides
-    fun createDb(context: Context): NotesDatabase =
+    fun createDb(@ApplicationContext context: Context): NotesDatabase =
         Room.databaseBuilder(context, NotesDatabase::class.java, NOTES_DATABASE)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
@@ -23,7 +28,6 @@ class RoomModule {
                 }
             }).build()
 
-    @Singleton
     @Provides
     fun providesDao(db: NotesDatabase) = db.dao()
 }

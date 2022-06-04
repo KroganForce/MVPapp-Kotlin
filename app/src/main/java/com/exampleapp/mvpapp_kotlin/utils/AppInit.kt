@@ -1,12 +1,7 @@
 package com.exampleapp.mvpapp_kotlin.utils
 
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-import com.exampleapp.mvpapp_kotlin.di.DaggerApplicationComponent
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
-
-class AppInit : DaggerApplication() {
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerApplicationComponent.builder().context(this).buildComponent()
-    }
-}
+@HiltAndroidApp
+class AppInit : Application()
