@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/detailFragment2"
-        android:name="com.exampleapp.mvpapp_kotlin.ui.DetailFragment"
+        android:name="com.example_app.mvpapp_kotlin.ui.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" >
         <argument
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment2"
-        android:name="com.exampleapp.mvpapp_kotlin.ui.HomeFragment"
+        android:name="com.example_app.mvpapp_kotlin.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
