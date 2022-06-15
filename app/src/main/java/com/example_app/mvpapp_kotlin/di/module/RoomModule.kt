@@ -22,7 +22,7 @@ class RoomModule {
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
-                    db.execSQL("INSERT INTO NOTE(id,note) VALUES (123,'NOTE 1'),(124,'NOTE 2')")
+                    db.execSQL("INSERT INTO NOTE(id,note) VALUES (1,'NOTE 1'),(2,'NOTE 2')")
                 }
             }).build()
 
