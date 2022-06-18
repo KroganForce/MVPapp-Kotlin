@@ -8,7 +8,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -52,7 +52,7 @@ class DetailFragmentTest {
     }
 
     @Test
-    fun editTextTest() {
+    fun editTextTypeTest() {
         onView(withId(R.id.edit_text_view))
             .check(matches(isDisplayed()))
         onView(withId(R.id.edit_text_view)).perform(clearText())
@@ -60,7 +60,7 @@ class DetailFragmentTest {
     }
 
     @Test
-    fun floatAddButtonTest() {
+    fun floatAddButtonAddNoteTest() {
         onView(withId(R.id.float_add_button)).perform(click()).check(
             matches(
                 isDisplayed()
@@ -69,7 +69,7 @@ class DetailFragmentTest {
     }
 
     @Test
-    fun emptyNoteAndSnackBarTextTest() {
+    fun emptyEditTextAndSnackBarTextTest() {
         onView(withId(R.id.edit_text_view)).perform(clearText()).check(
             matches(
                 isDisplayed()

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MVP app</string>
+    <string name="app_name">Example app</string>
     <string name="edit_text_hint">Вводите текст заметки здесь </string>
     <string name="description">Кнопка удаления заметки</string>
     <string name="fragment_description">Домашний экран</string>

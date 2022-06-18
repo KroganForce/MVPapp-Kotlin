@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example_app.mvpapp_kotlin">
 
     <application
@@ -12,7 +13,9 @@
         android:configChanges="orientation"
         android:theme="@style/Theme.MVPAppKotlin"
         android:extractNativeLibs="true"
-        android:fullBackupContent="true">
+        android:fullBackupContent="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        tools:targetApi="s">
         <activity android:name=".ui.MainActivity"
             android:exported = "true">
 
