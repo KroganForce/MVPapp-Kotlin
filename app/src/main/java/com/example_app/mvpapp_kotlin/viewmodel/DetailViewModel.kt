@@ -18,7 +18,6 @@ class DetailViewModel @Inject constructor(
 
     fun getNoteById(id: Int): LiveData<Note?> {
         return noteRepository.getDataById(id).asLiveData()
-
     }
 
     fun add(noteText: String) {
